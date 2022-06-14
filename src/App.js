@@ -1,36 +1,41 @@
 
+import { keyboard } from '@testing-library/user-event/dist/keyboard';
 import { useState } from 'react';
 import './App.css';
 
 const defaultGuessList = [
-  ["","","","",""],
-  ["","","","",""],
-  ["","","","",""],
-  ["","","","",""],
-  ["","","","",""],
-  ["","","","",""],
-  ]
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+]
+const defaultKeyList = [
+  ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+  ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+  ["enter", "z", "x", "c", "v", "b", "n", "m", "backspace"]
+]
 
 function App() {
 
   const [wordleGuesslist, setWordleGuessList] = useState([...defaultGuessList])
-   
+
   // const [letterGuess, setLetterGuess] = useState('')
 
-  // const [keyList, setKeyList] = useState ([
-  //   ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-  //   ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
-  //   ["enter", "z", "x", "c", "v", "b", "n", "m", "backspace"]
-  //   ])
+  const keyList = [...defaultKeyList]
+  // console.log(keyList)
 
   return (
     <div className="App">
       <header className="App-header">
-        <WordleGridHead/>
+        <WordleGridHead />
         <WordleGrid
           wordleGuesslist={wordleGuesslist}
         />
-        <WordleKeyboard/>
+        <WordleKeyboard
+          keyList={keyList}
+        />
       </header>
     </div>
   );
@@ -46,11 +51,11 @@ const WordleGridHead = () => {
 const WordleGrid = (props) => {
   // object destructure
   // const  {wordleGuesslist} = props
-  return(
+  return (
     <div className="wordle-grid">
-      {props.wordleGuesslist.map((wordleGuess)=>{
-        return(
-          <GuessRow wordleGuess={wordleGuess}/>
+      {props.wordleGuesslist.map((wordleGuess) => {
+        return (
+          <GuessRow wordleGuess={wordleGuess} />
         )
       })}
     </div>
@@ -60,30 +65,52 @@ const WordleGrid = (props) => {
 const GuessRow = (props) => {
   return (
     <div className="wordle-grid-row">
-      {props.wordleGuess.map((wordleLetter)=>{
-        return(
-          <GuessLetter wordleLetter={wordleLetter}/>
+      {props.wordleGuess.map((wordleLetter) => {
+        return (
+          <GuessLetter wordleLetter={wordleLetter} />
         )
       })}
-    </div>  
+    </div>
   )
 }
 const GuessLetter = (props) => {
   return (
-    <div className='wordle-grid-letter'>
+    <div className='wordle-grid-letter' style={{backgroundColor:'grey'}}>
       {props.wordleLetter}
     </div>
   )
 }
 
-const WordleKeyboard = (props) =>{
-  
+const WordleKeyboard = (props) => {
   return (
-    <div>
-      WordleKeyboard
+    <div className="keyboard-grid">
+      {props.keyList.map((keyBoard) => {
+        return (
+          <KeyboardRow keyBoard={keyBoard} />
+        )
+      })}
     </div>
   )
 }
+const KeyboardRow = (props) => {
+  return (
+    <div className="keyboard-grid-row">
+      {props.keyBoard.map((keyBoardRow) => {
+        return (
+          <KeyboardLetter keyBoardRow={keyBoardRow}/>
+        )
+      })}
+    </div>
+  )
+}
+const KeyboardLetter = (props) => {
+  return (
+    <div className="keyboard-grid-letter">
+      {props.keyBoardRow}
+    </div>
+  )
+}
+
 
 //componentize
 export default App;
